@@ -1,0 +1,71 @@
+# Market relationship groups for SignalGraph research.
+#
+# Replace placeholder market_ids with real tickers before running research.
+# Do not hardcode political or sports logic into the core library —
+# relationship semantics live here as configuration.
+#
+# relationship_type options:
+#   - aggregate_constituent
+#   - mutually_exclusive
+#   - conditional
+#   - overlapping
+#   - custom
+
+groups:
+  # Example template: aggregate market vs constituent markets.
+  # Fill in real Kalshi tickers for your chosen research universe.
+  example_aggregate_group:
+    description: >
+      Template for an aggregate-constituent relationship.
+      Replace market_ids with real tickers (e.g., individual races vs control).
+    relationship_type: aggregate_constituent
+    aggregate:
+      platform: kalshi
+      market_id: REPLACE_WITH_AGGREGATE_TICKER
+      notes: Directly traded aggregate contract
+    constituents:
+      - platform: kalshi
+        market_id: REPLACE_WITH_CONSTITUENT_1
+        notes: Constituent outcome 1
+      - platform: kalshi
+        market_id: REPLACE_WITH_CONSTITUENT_2
+        notes: Constituent outcome 2
+      - platform: kalshi
+        market_id: REPLACE_WITH_CONSTITUENT_3
+        notes: Constituent outcome 3
+    metadata:
+      status: template
+      correlation_assumption: unresolved
+      notes: >
+        Correlation among constituents is an explicit research concern.
+        Do not assume independence without documenting the assumption.
+
+  # Example template: mutually exclusive outcomes within an event.
+  example_mutually_exclusive:
+    description: >
+      Template for mutually exclusive contracts that should sum near 1
+      (modulo vig / incomplete coverage).
+    relationship_type: mutually_exclusive
+    constituents:
+      - platform: kalshi
+        market_id: REPLACE_WITH_OUTCOME_A
+      - platform: kalshi
+        market_id: REPLACE_WITH_OUTCOME_B
+      - platform: kalshi
+        market_id: REPLACE_WITH_OUTCOME_C
+    metadata:
+      status: template
+
+  # Placeholder for tomorrow's first research set (~10 related markets).
+  research_universe_v1:
+    description: >
+      Primary research universe — populate with ~10 logically related markets
+      before modeling. Prefer one clear relationship type.
+    relationship_type: custom
+    constituents: []
+    metadata:
+      status: empty
+      target_size: 10
+      next_step: >
+        Choose related markets, add platform/market_id entries, then run
+        scripts/fetch_markets.py and scripts/fetch_history.py.
